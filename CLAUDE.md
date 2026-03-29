@@ -21,7 +21,7 @@ clipdd/
 
 ## Key Design Decisions
 
-- An option to fire all 5 style API calls in parallel for faster UX
+- An option to fire all 5 style API calls for faster UX, but we are rate limited, so they should run sequentially.
 - Backend proxies Replicate API key — never exposed in the app
 - 5 styles chosen deliberately after live testing; Cyberpunk and realistic styles eliminated due to inconsistent output
 - Docker used; Kubernetes intentionally skipped as overkill at this scale
