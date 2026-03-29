@@ -12,7 +12,11 @@ Browse results in a clean grid with smooth loading states
 Download or share any generated image instantly
 
 AI Styles
-StyleDescription🎌 AnimeJapanese anime with clean lines and vibrant colors🌿 GhibliSoft Studio Ghibli watercolor aesthetic🕹️ Pixel ArtRetro 8-bit game sprite style💥 ComicBold ink outlines with comic book shading🎨 CartoonExaggerated cartoon character style
+StyleDescription
+- 🎌 AnimeJapanese anime with clean lines and vibrant colors
+- 🌿 GhibliSoft Studio Ghibli watercolor aesthetic
+- 🕹️ Pixel ArtRetro 8-bit game sprite style
+- 💥 ComicBold ink outlines with comic book shading🎨 CartoonExaggerated cartoon character style
 
 Tech Stack
 LayerTechnologyFrontendReact Native (Android)BackendNode.js / ExpressAI ModelFLUX.1 Kontext Pro via ReplicateDeploymentRender (Dockerized)
