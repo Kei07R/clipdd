@@ -8,6 +8,10 @@ const replicate = new Replicate({
 const MODEL = "black-forest-labs/flux-kontext-pro";
 
 const STYLES = {
+  custom: {
+    label: "Custom",
+    prompt: null, // resolved at runtime from request body
+  },
   anime: {
     label: "Anime",
     prompt:
@@ -39,8 +43,9 @@ const STYLES = {
  * Run a single style generation against Replicate.
  * Returns { style, label, imageUrl } on success or { style, label, error } on failure.
  */
-async function generateStyle(styleKey, imageDataUrl) {
-  const { label, prompt } = STYLES[styleKey];
+async function generateStyle(styleKey, imageDataUrl, customPrompt) {
+  const { label } = STYLES[styleKey];
+  const prompt = styleKey === "custom" ? customPrompt : STYLES[styleKey].prompt;
   try {
     const output = await replicate.run(MODEL, {
       input: {
@@ -63,10 +68,10 @@ async function generateStyle(styleKey, imageDataUrl) {
  * Generate only the requested styles, one at a time (rate-limit safe).
  * Always resolves — individual failures are captured per-style.
  */
-async function generateSelectedStyles(imageDataUrl, styleKeys) {
+async function generateSelectedStyles(imageDataUrl, styleKeys, customPrompt) {
   const results = [];
   for (const key of styleKeys) {
-    results.push(await generateStyle(key, imageDataUrl));
+    results.push(await generateStyle(key, imageDataUrl, customPrompt));
   }
   return results;
 }

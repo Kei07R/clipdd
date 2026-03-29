@@ -4,8 +4,8 @@ Node.js/Express server that proxies image generation requests to Replicate, keep
 
 ## How It Works
 
-1. The mobile app sends a photo to `POST /api/generate`
-2. The server fires all 5 style generations **in parallel** against Replicate's FLUX.1 Kontext Pro model
+1. The mobile app sends a photo and selected styles to `POST /api/generate`
+2. The server generates each style **sequentially** against Replicate's FLUX.1 Kontext Pro model (rate-limit safe)
 3. Results (image URLs) are returned in a single response once all requests settle
 
 ## Setup
@@ -27,26 +27,29 @@ npm run dev            # runs with nodemon on port 3000
 
 ### `POST /api/generate`
 
-Generates all 5 clipart styles from a photo.
+Generates clipart styles from a photo.
 
 **Request**
 
 `Content-Type: multipart/form-data`
 
-| Field   | Type | Description                                          |
-| ------- | ---- | ---------------------------------------------------- |
-| `image` | file | The photo to transform (max 10 MB, must be an image) |
+| Field          | Type   | Required | Description                                                                 |
+| -------------- | ------ | -------- | --------------------------------------------------------------------------- |
+| `image`        | file   | yes      | The photo to transform (max 10 MB, must be an image)                        |
+| `styles`       | string | no       | Comma-separated style keys to generate (e.g. `"anime,comic"`). Defaults to all preset styles. |
+| `customPrompt` | string | no*      | Your own prompt. Required when `custom` is included in `styles`.            |
 
 **Response `200`**
 
 ```json
 {
   "results": [
-    { "style": "anime", "label": "Anime", "imageUrl": "https://..." },
-    { "style": "ghibli", "label": "Ghibli", "imageUrl": "https://..." },
+    { "style": "anime",    "label": "Anime",     "imageUrl": "https://..." },
+    { "style": "ghibli",   "label": "Ghibli",    "imageUrl": "https://..." },
     { "style": "pixelart", "label": "Pixel Art", "imageUrl": "https://..." },
-    { "style": "comic", "label": "Comic", "imageUrl": "https://..." },
-    { "style": "cartoon", "label": "Cartoon", "imageUrl": "https://..." }
+    { "style": "comic",    "label": "Comic",     "imageUrl": "https://..." },
+    { "style": "cartoon",  "label": "Cartoon",   "imageUrl": "https://..." },
+    { "style": "custom",   "label": "Custom",    "imageUrl": "https://..." }
   ]
 }
 ```
@@ -59,12 +62,12 @@ Individual styles can fail without failing the whole request. A failed style inc
 
 **Error Responses**
 
-| Status | Meaning                                     |
-| ------ | ------------------------------------------- |
-| `400`  | No image provided or invalid file type      |
-| `413`  | Image exceeds 10 MB limit                   |
-| `502`  | All 5 style generations failed              |
-| `500`  | Server misconfiguration (missing API token) |
+| Status | Meaning                                                  |
+| ------ | -------------------------------------------------------- |
+| `400`  | No image, invalid file type, or missing `customPrompt`   |
+| `413`  | Image exceeds 10 MB limit                                |
+| `502`  | All style generations failed                             |
+| `500`  | Server misconfiguration (missing API token)              |
 
 ## Project Structure
 
@@ -74,18 +77,19 @@ src/
 ├── routes/
 │   └── generate.js    # POST /api/generate handler
 └── services/
-    └── replicate.js   # Replicate client, style prompts, parallel execution
+    └── replicate.js   # Replicate client, style prompts, sequential execution
 ```
 
 ## Styles
 
-| Key        | Label     | Description                                        |
-| ---------- | --------- | -------------------------------------------------- |
-| `anime`    | Anime     | Japanese anime with clean lines and vibrant colors |
-| `ghibli`   | Ghibli    | Studio Ghibli soft watercolor aesthetic            |
-| `pixelart` | Pixel Art | Retro 8-bit game sprite style                      |
-| `comic`    | Comic     | Bold ink outlines with comic book shading          |
-| `cartoon`  | Cartoon   | Exaggerated Western cartoon character style        |
+| Key        | Label     | Description                                              |
+| ---------- | --------- | -------------------------------------------------------- |
+| `anime`    | Anime     | Japanese anime with clean lines and vibrant colors       |
+| `ghibli`   | Ghibli    | Studio Ghibli soft watercolor aesthetic                  |
+| `pixelart` | Pixel Art | Retro 8-bit game sprite style                            |
+| `comic`    | Comic     | Bold ink outlines with comic book shading                |
+| `cartoon`  | Cartoon   | Exaggerated Western cartoon character style              |
+| `custom`   | Custom    | User-supplied prompt — requires `customPrompt` in request |
 
 ## Docker
 

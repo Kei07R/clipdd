@@ -36,15 +36,20 @@ router.post("/", upload.single("image"), async (req, res) => {
   const validKeys = Object.keys(STYLES);
   const requested = req.body.styles
     ? req.body.styles.split(",").map((s) => s.trim()).filter((s) => validKeys.includes(s))
-    : validKeys;
+    : validKeys.filter((k) => k !== "custom");
 
   if (requested.length === 0) {
     return res.status(400).json({ error: `No valid styles requested. Valid options: ${validKeys.join(", ")}` });
   }
 
+  const customPrompt = req.body.customPrompt?.trim();
+  if (requested.includes("custom") && !customPrompt) {
+    return res.status(400).json({ error: "customPrompt is required when the 'custom' style is selected" });
+  }
+
   const imageDataUrl = `data:${req.file.mimetype};base64,${req.file.buffer.toString("base64")}`;
 
-  const results = await generateSelectedStyles(imageDataUrl, requested);
+  const results = await generateSelectedStyles(imageDataUrl, requested, customPrompt);
   const hasAnySuccess = results.some((r) => !r.error);
 
   if (!hasAnySuccess) {

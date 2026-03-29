@@ -259,6 +259,36 @@
 
     .picker-actions button:hover { color: #aaa; }
 
+    /* ── Custom prompt ── */
+    #custom-prompt-wrap {
+      display: none;
+      margin-bottom: 20px;
+    }
+
+    #custom-prompt-wrap.visible { display: block; }
+
+    #custom-prompt {
+      width: 100%;
+      background: #1a1a1a;
+      border: 1px solid #444;
+      border-radius: 10px;
+      padding: 10px 14px;
+      color: #f0f0f0;
+      font-size: 0.88rem;
+      resize: vertical;
+      min-height: 80px;
+      font-family: inherit;
+    }
+
+    #custom-prompt:focus { outline: none; border-color: #6c63ff; }
+
+    #custom-prompt-wrap label {
+      display: block;
+      font-size: 0.8rem;
+      color: #777;
+      margin-bottom: 6px;
+    }
+
     /* ── Timing ── */
     #timing {
       text-align: center;
@@ -293,6 +323,11 @@
     <button id="select-none">Clear</button>
   </div>
 
+  <div id="custom-prompt-wrap">
+    <label for="custom-prompt">Custom prompt</label>
+    <textarea id="custom-prompt" placeholder="e.g. Transform this person into a Viking warrior with a fur cape and battle axe"></textarea>
+  </div>
+
   <button id="generate-btn" disabled>Generate</button>
 
   <div id="status"></div>
@@ -308,6 +343,7 @@
       { key: 'pixelart', label: 'Pixel Art', emoji: '🕹️' },
       { key: 'comic',    label: 'Comic',     emoji: '💥' },
       { key: 'cartoon',  label: 'Cartoon',   emoji: '🎨' },
+      { key: 'custom',   label: 'Custom',    emoji: '✏️' },
     ];
 
     const dropZone    = document.getElementById('drop-zone');
@@ -318,7 +354,9 @@
     const gridEl      = document.getElementById('results-grid');
     const timingEl    = document.getElementById('timing');
     const apiUrlEl    = document.getElementById('api-url');
-    const pickerEl    = document.getElementById('style-picker');
+    const pickerEl         = document.getElementById('style-picker');
+    const customPromptWrap = document.getElementById('custom-prompt-wrap');
+    const customPromptEl   = document.getElementById('custom-prompt');
 
     let selectedFile = null;
 
@@ -329,6 +367,7 @@
       label.innerHTML = `<input type="checkbox" value="${style.key}" checked />${style.emoji} ${style.label}`;
       label.querySelector('input').addEventListener('change', () => {
         label.classList.toggle('checked', label.querySelector('input').checked);
+        updateCustomPromptVisibility();
         updateBtn();
       });
       pickerEl.appendChild(label);
@@ -336,13 +375,20 @@
 
     document.getElementById('select-all').addEventListener('click', () => {
       pickerEl.querySelectorAll('input').forEach((cb) => { cb.checked = true; cb.closest('label').classList.add('checked'); });
+      updateCustomPromptVisibility();
       updateBtn();
     });
 
     document.getElementById('select-none').addEventListener('click', () => {
       pickerEl.querySelectorAll('input').forEach((cb) => { cb.checked = false; cb.closest('label').classList.remove('checked'); });
+      updateCustomPromptVisibility();
       updateBtn();
     });
+
+    function updateCustomPromptVisibility() {
+      const customChecked = [...pickerEl.querySelectorAll('input:checked')].some((cb) => cb.value === 'custom');
+      customPromptWrap.classList.toggle('visible', customChecked);
+    }
 
     function selectedStyles() {
       return [...pickerEl.querySelectorAll('input:checked')].map((cb) => cb.value);
@@ -408,6 +454,9 @@
       const formData = new FormData();
       formData.append('image', selectedFile);
       formData.append('styles', styles.join(','));
+      if (styles.includes('custom') && customPromptEl.value.trim()) {
+        formData.append('customPrompt', customPromptEl.value.trim());
+      }
 
       const start = Date.now();
 
