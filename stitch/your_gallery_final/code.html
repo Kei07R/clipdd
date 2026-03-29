@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-fixed": "#eaddff",
+                        "on-tertiary-container": "#ffe0cd",
+                        "surface-container": "#eceef0",
+                        "primary-container": "#7c3aed",
+                        "outline": "#7b7487",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#d2bbff",
+                        "tertiary-container": "#a15100",
+                        "tertiary": "#7d3d00",
+                        "tertiary-fixed": "#ffdcc6",
+                        "background": "#f7f9fb",
+                        "secondary-container": "#c4a7ff",
+                        "inverse-primary": "#d2bbff",
+                        "secondary-fixed": "#eaddff",
+                        "on-primary-fixed-variant": "#5a00c6",
+                        "surface-tint": "#732ee4",
+                        "on-secondary-fixed": "#25005a",
+                        "secondary": "#6a4fa0",
+                        "on-secondary": "#ffffff",
+                        "on-primary-container": "#ede0ff",
+                        "outline-variant": "#ccc3d8",
+                        "surface-container-high": "#e6e8ea",
+                        "secondary-fixed-dim": "#d2bbff",
+                        "surface-dim": "#d8dadc",
+                        "surface-container-highest": "#e0e3e5",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#301400",
+                        "error": "#ba1a1a",
+                        "primary": "#630ed4",
+                        "surface": "#f7f9fb",
+                        "on-surface": "#191c1e",
+                        "on-primary-fixed": "#25005a",
+                        "on-tertiary-fixed-variant": "#713700",
+                        "inverse-surface": "#2d3133",
+                        "on-background": "#191c1e",
+                        "surface-variant": "#e0e3e5",
+                        "on-surface-variant": "#4a4455",
+                        "on-secondary-fixed-variant": "#523787",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-low": "#f2f4f6",
+                        "on-secondary-container": "#523787",
+                        "on-error-container": "#93000a",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb784",
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#eff1f3",
+                        "surface-bright": "#f7f9fb"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    },
+                    borderRadius: { "DEFAULT": "10px", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-[#F7F9FB] dark:bg-[#191C1E] flex justify-center items-center w-full h-16 px-4 sticky top-0 z-50">
+<div class="flex items-center justify-between w-full max-w-4xl">
+<span class="material-symbols-outlined text-[#7C3AED] hover:opacity-80 transition-opacity cursor-pointer">menu</span>
+<h1 class="font-['Manrope'] font-extrabold uppercase tracking-widest text-lg text-[#7C3AED]">CLIPDD</h1>
+<span class="material-symbols-outlined text-[#7C3AED] hover:opacity-80 transition-opacity cursor-pointer">settings</span>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow w-full max-w-4xl mx-auto px-6 pt-12 pb-32">
+<!-- Hero Section -->
+<section class="mb-12">
+<h2 class="font-headline font-extrabold text-[3.5rem] leading-tight text-on-surface tracking-tight mb-4">Your Gallery</h2>
+<div class="h-1 w-24 bg-primary-container rounded-full"></div>
+</section>
+<!-- Gallery Grid: 2 columns, 3 rows -->
+<div class="grid grid-cols-2 gap-6 md:gap-8">
+<!-- Gallery Item 1 -->
+<div class="relative group aspect-[4/5] bg-surface-container-lowest rounded-[10px] overflow-hidden">
+<img alt="Abstract digital art" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Minimalist abstract digital landscape with flowing purple and blue silk-like textures on a clean white background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnJZt4de_Jb8xLwYHOSDFj6F792FOvyEJq8Uq_BW2eW7a-to2ps4xRbMX2HnvwBwzZ8fttj6cZAOam455VlMu5cDMt1qQHpUBty0toHTnASEbcSNixlXDyq8EcANnG1vUWd-ioALRzo7vZRn6xJhyXpDj394LXD-GpXBSiPJHOiez8zHxn93pW8o0f0V77C4H06VvsuH2FW5Do3DskuOoYqBO2BVA1t5SXFKA6iLukVZNaOULDUgMm5yN0upJ_B0mArUS0WisYTFyi"/>
+<div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
+<button class="absolute bottom-4 right-4 bg-surface-container-lowest/90 backdrop-blur-md p-2 rounded-[10px] shadow-sm text-primary hover:bg-primary hover:text-white transition-all duration-200">
+<span class="material-symbols-outlined text-[20px]">download</span>
+</button>
+</div>
+<!-- Gallery Item 2 -->
+<div class="relative group aspect-[4/5] bg-surface-container-lowest rounded-[10px] overflow-hidden">
+<img alt="Geometric shapes" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="3D render of floating geometric spheres and tori in soft lavender and charcoal grey with studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFK9sJExCDSpKKn3vo4ILfAfjwgzac-8mtZ1GJdmM0IyWEpIPwTITOja43l2bUkCkkDDfrLmMHTcXuYW_blu-aF06hkb2RTnZSGBIBF9nNYbP4joPfNIRZLLMF2jJQ8HX4oMxua72Og2qyuP3ogsTjC_TlR0CP9HcNLS8zkAn9ktje0KXCMzusxGBE_S7fN5D2kF2FfZMX6CP-IwSF3DDem1QQdbGBNlXiGK60i6Er9uyH8BHN19534xJRx384DC5n7rTuwzZYTkRs"/>
+<div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
+<button class="absolute bottom-4 right-4 bg-surface-container-lowest/90 backdrop-blur-md p-2 rounded-[10px] shadow-sm text-primary hover:bg-primary hover:text-white transition-all duration-200">
+<span class="material-symbols-outlined text-[20px]">download</span>
+</button>
+</div>
+<!-- Gallery Item 3 -->
+<div class="relative group aspect-[4/5] bg-surface-container-lowest rounded-[10px] overflow-hidden">
+<img alt="Neon abstract" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Dynamic fluid gradient wave pattern in deep violet and electric purple with subtle grainy texture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTLGEf67mEKD-smbC6V7D9UqbnTZxZ8jywZgAMxMhjfTngmlp0Wq28Jb0EPdaPXXMnYmhu9n8zICD9SdhR2UnWtFUrxPDLbndgzrebMtpHbYTb8QRUI4o5pw7o4xLxJ5sEB0si40tw7AvOzh3vC6SFmr1mvSvIfGI2Oycc9wglaEwTJWqx0G9KjN8y3jpv8418zphCUYEUgHyBtXP-GMbGsUvmnPYie-QH6xsSfp6kBdSlCn0pxVPhZZ0azq_-TsJNIwlYwKyU79OT"/>
+<div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
+<button class="absolute bottom-4 right-4 bg-surface-container-lowest/90 backdrop-blur-md p-2 rounded-[10px] shadow-sm text-primary hover:bg-primary hover:text-white transition-all duration-200">
+<span class="material-symbols-outlined text-[20px]">download</span>
+</button>
+</div>
+<!-- Gallery Item 4 -->
+<div class="relative group aspect-[4/5] bg-surface-container-lowest rounded-[10px] overflow-hidden">
+<img alt="Vaporwave style" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Soft focused macro photography of holographic paper reflecting purple and pink light beams in a dark space" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBP-qWQ-YrmWGLC85_-umN7XUQt3fRq3tf-koqD9CFXuP8P0mvZS3gRFJF8mkNAtgeqHB2DLyLG37JSgO105ZAQS94krLlZ8Z4gBxKpsWAf2YZ7cPj6f5Zp6w6ia8TPC_mBX5oFjVLDCiWNUvbvUKjrlS8_n2kBMkOFqaxlhWdRhsgCXeI4VbXATk5OPlCHTF9befvaDbTGrcGDZXmz1bOGa0nn-JcsHIrDob3APacYXW49L_OhNqUboSYVEVP_G641TGvaPv5kcreG"/>
+<div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
+<button class="absolute bottom-4 right-4 bg-surface-container-lowest/90 backdrop-blur-md p-2 rounded-[10px] shadow-sm text-primary hover:bg-primary hover:text-white transition-all duration-200">
+<span class="material-symbols-outlined text-[20px]">download</span>
+</button>
+</div>
+<!-- Gallery Item 5 -->
+<div class="relative group aspect-[4/5] bg-surface-container-lowest rounded-[10px] overflow-hidden">
+<img alt="Modern art" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Clean minimal architectural shot of a modern white building against a clear violet evening sky" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLqF4XcHtIeWihCHVIf2jDDkCRYe9rHVSvLsjThePIPzrOcRhlrf0sr8PEa0YDefW-8h-zX2skyjh-tV6ax9b8TSEBt5gTUupshBDOdeeNoMPOe_cFs3mXTVMz76pe01-RGS1_ponhRRvXHcV6-D6T6q31-I7PW1BywpIewZx1xhBlVL3OERCUatmVdaK0n0NeUhYmLFsY-5yO01YEqyo6kyGhO5ScAgd0QghjPnH2YEsUzRNDPuRwb5qyvolA6KdWRG7eRoh-PwLq"/>
+<div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
+<button class="absolute bottom-4 right-4 bg-surface-container-lowest/90 backdrop-blur-md p-2 rounded-[10px] shadow-sm text-primary hover:bg-primary hover:text-white transition-all duration-200">
+<span class="material-symbols-outlined text-[20px]">download</span>
+</button>
+</div>
+<!-- Gallery Item 6 -->
+<div class="relative group aspect-[4/5] bg-surface-container-lowest rounded-[10px] overflow-hidden">
+<img alt="Digital swirl" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Swirling oil-on-water texture with vibrant amethyst and indigo hues with sharp crisp edges" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKh_gNoYUhVZGWA1mRp9sPx_sWlfqqVec7C4KW6u37UrQ799bLH1Fv5P85v6zA0Kh2QxwUH1A_OuLsVw9-BEeKeUgeCFT_CWCA5o5VRggE5eOMAvIengyr-j7rpN6P3Eb18y2OB-1sJY1QbqPoVx22xgvmLvjaT7cFSWpMz8Qrj1CJpXIAK4BjTUitDOx2aCzKDDAs7h47hwvOmQolIqAUv43vTaEiPrRybPN3KVXuh1Wv8582nllGNHs9ejKcmBXlc4dY1A6S8-Rt"/>
+<div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
+<button class="absolute bottom-4 right-4 bg-surface-container-lowest/90 backdrop-blur-md p-2 rounded-[10px] shadow-sm text-primary hover:bg-primary hover:text-white transition-all duration-200">
+<span class="material-symbols-outlined text-[20px]">download</span>
+</button>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-2 bg-white dark:bg-[#191C1E] z-50 rounded-t-[10px] shadow-[0px_-4px_20px_0px_rgba(25,28,30,0.04)]">
+<!-- Home -->
+<a class="flex flex-col items-center justify-center text-[#191C1E] opacity-50 hover:bg-[#F7F9FB] transition-opacity px-6 py-2 rounded-[10px]" href="#">
+<span class="material-symbols-outlined mb-1">home</span>
+<span class="font-['Manrope'] font-medium text-[10px] uppercase tracking-[0.05rem]">Home</span>
+</a>
+<!-- Styles -->
+<a class="flex flex-col items-center justify-center text-[#191C1E] opacity-50 hover:bg-[#F7F9FB] transition-opacity px-6 py-2 rounded-[10px]" href="#">
+<span class="material-symbols-outlined mb-1">palette</span>
+<span class="font-['Manrope'] font-medium text-[10px] uppercase tracking-[0.05rem]">Styles</span>
+</a>
+<!-- Gallery (Active) -->
+<a class="flex flex-col items-center justify-center bg-[#EADDFF] text-[#5A00C6] rounded-[10px] px-6 py-2 scale-95 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">grid_view</span>
+<span class="font-['Manrope'] font-medium text-[10px] uppercase tracking-[0.05rem]">Gallery</span>
+</a>
+</nav>
+</body></html>

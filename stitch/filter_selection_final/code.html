@@ -1,0 +1,177 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-fixed": "#eaddff",
+              "on-tertiary-container": "#ffe0cd",
+              "surface-container": "#eceef0",
+              "primary-container": "#7c3aed",
+              "outline": "#7b7487",
+              "surface-container-lowest": "#ffffff",
+              "primary-fixed-dim": "#d2bbff",
+              "tertiary-container": "#a15100",
+              "tertiary": "#7d3d00",
+              "tertiary-fixed": "#ffdcc6",
+              "background": "#f7f9fb",
+              "secondary-container": "#c4a7ff",
+              "inverse-primary": "#d2bbff",
+              "secondary-fixed": "#eaddff",
+              "on-primary-fixed-variant": "#5a00c6",
+              "surface-tint": "#732ee4",
+              "on-secondary-fixed": "#25005a",
+              "secondary": "#6a4fa0",
+              "on-secondary": "#ffffff",
+              "on-primary-container": "#ede0ff",
+              "outline-variant": "#ccc3d8",
+              "surface-container-high": "#e6e8ea",
+              "secondary-fixed-dim": "#d2bbff",
+              "surface-dim": "#d8dadc",
+              "surface-container-highest": "#e0e3e5",
+              "error-container": "#ffdad6",
+              "on-tertiary-fixed": "#301400",
+              "error": "#ba1a1a",
+              "primary": "#630ed4",
+              "surface": "#f7f9fb",
+              "on-surface": "#191c1e",
+              "on-primary-fixed": "#25005a",
+              "on-tertiary-fixed-variant": "#713700",
+              "inverse-surface": "#2d3133",
+              "on-background": "#191c1e",
+              "surface-variant": "#e0e3e5",
+              "on-surface-variant": "#4a4455",
+              "on-secondary-fixed-variant": "#523787",
+              "on-tertiary": "#ffffff",
+              "surface-container-low": "#f2f4f6",
+              "on-secondary-container": "#523787",
+              "on-error-container": "#93000a",
+              "on-error": "#ffffff",
+              "tertiary-fixed-dim": "#ffb784",
+              "on-primary": "#ffffff",
+              "inverse-on-surface": "#eff1f3",
+              "surface-bright": "#f7f9fb"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "10px", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      body { font-family: 'Manrope', sans-serif; }
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+      .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+      .custom-scrollbar::-webkit-scrollbar-thumb { background: #ccc3d8; border-radius: 10px; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="bg-[#F7F9FB] dark:bg-[#191C1E] flex justify-center items-center w-full h-16 px-4 sticky top-0 z-50">
+<div class="flex items-center justify-between w-full max-w-4xl">
+<span class="material-symbols-outlined text-primary text-2xl cursor-pointer" style="">arrow_back</span>
+<h1 class="font-['Manrope'] font-extrabold uppercase tracking-widest text-lg text-[#7C3AED]" style="">CLIPDD</h1>
+<span class="material-symbols-outlined text-primary text-2xl cursor-pointer" style="">more_vert</span>
+</div>
+</header>
+<main class="max-w-4xl mx-auto px-6 pt-8 space-y-12">
+<!-- Hero Section -->
+<section class="text-center md:text-left space-y-2">
+<span class="font-['Manrope'] font-medium text-[10px] uppercase tracking-[0.05rem] text-primary" style="">Style Lab</span>
+<h2 class="text-4xl md:text-5xl font-extrabold text-on-surface tracking-tight" style="">Craft Your Style</h2>
+<p class="text-on-surface-variant font-light text-lg" style="">Select a preset aesthetic or define your unique visual signature.</p>
+</section>
+<!-- Suggested Styles Grid -->
+<section class="space-y-6">
+<div class="flex items-baseline justify-between">
+<h3 class="font-bold text-xl" style="">Presets</h3>
+<button class="text-primary text-sm font-semibold hover:opacity-80 transition-opacity" style="">View All</button>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<!-- Anime Card -->
+<div class="group relative aspect-[3/4] overflow-hidden rounded-[10px] bg-surface-container-lowest cursor-pointer transition-all active:scale-[0.98]">
+<img alt="Anime filter preview" class="w-full h-full object-cover grayscale-0 group-hover:scale-110 transition-transform duration-500" data-alt="Vibrant anime style art of a futuristic city street with glowing neon signs and cel-shaded characters in afternoon light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUXOAJR3Baw9wHhSl3RyfWxlNacjCZsNlvEc0SA7zA170r-1TCCEzxxWqa9qpE2xcyAPK7rpk2O5hrhupChByQwWeWVzgcWgBJ1IyF8M8iViiCy3AJd0USW7mMnk9ByjYeqJDIPz4VEZFaO-rLd3SmjQFjKq9Z6zApGeTwf-4uzgSOQXz5-O3DfuJ0AMWQZKkAJXNocGeB_pG7auvg3L7WiBSPVJGGwTUGU6X1jsmzJfJhwGOEC9kGocbPF5L03SEKefX0jJHGNKtN" style="">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+<div class="absolute bottom-4 left-4">
+<p class="text-white font-bold text-sm" style="">Anime</p>
+</div>
+</div>
+<!-- Ghibli Card -->
+<div class="group relative aspect-[3/4] overflow-hidden rounded-[10px] bg-surface-container-lowest border-2 border-primary-container cursor-pointer transition-all active:scale-[0.98]">
+<img alt="Ghibli filter preview" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Painterly landscape with lush rolling green hills, fluffy white cumulus clouds, and a soft whimsical summer daylight glow" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBiRrJ1qj_UVhtKqlCvvadEAbRRrcsmpkNDmeRdAToPFlppcoXY3IQNctYJXmtmtH3OPjgPIxvYxRcDVISB7ecpZvU-GUjuaJz-n7mAqcL-ZoFhfVSU14hh_zOYrKLlOEldWsMRLj9SPiW0QuoklaM2QoDJWfmCs7vvjgk-Kt8wrClO92CRo0B8OoX954CBYsTLHU2o6HSo7v7vc-f4bGo_VeM2lSqxisExCUeFo8Flx_3OnHuRcqEeV2yHPD7YXJDUMwWsA8_0QajB" style="">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+<div class="absolute top-2 right-2 bg-primary-container text-white p-1 rounded-full shadow-lg">
+<span class="material-symbols-outlined text-xs" style="font-variation-settings: &quot;FILL&quot; 1;">check</span>
+</div>
+<div class="absolute bottom-4 left-4">
+<p class="text-white font-bold text-sm" style="">Ghibli</p>
+</div>
+</div>
+<!-- Vintage Film Card -->
+<div class="group relative aspect-[3/4] overflow-hidden rounded-[10px] bg-surface-container-lowest cursor-pointer transition-all active:scale-[0.98]">
+<img alt="Vintage Film filter preview" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Analog 35mm film photography of a dusty road at sunset with heavy grain, light leaks, and warm faded colors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-QjdjnAvD9-COHocxLukqLW9TyynoRhExt4MdgDzk8e4Rk7nNtrJna3duzgO1jZb5LWP6N1dctGEfjb0Sox44rpcifa_FdmUShJYsy-MaHtHfzboJ2JzK5a4dJBdsnHqQlJ5JU8WrXQbZgExrIxaAx-g0t2JFugQBcCXeEIEL2z88jHeB6D6EzX_XT7cmPmmmhn5GsBxZtxKqieWuIvd9JWBvDC-ftdxqnpmMT4c1YlcSuuJqDGLndfqQd7YAlWaCqazavxxvhUel" style="">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+<div class="absolute bottom-4 left-4">
+<p class="text-white font-bold text-sm" style="">Vintage Film</p>
+</div>
+</div>
+<!-- Cyberpunk Card -->
+<div class="group relative aspect-[3/4] overflow-hidden rounded-[10px] bg-surface-container-lowest cursor-pointer transition-all active:scale-[0.98]">
+<img alt="Cyberpunk filter preview" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Dystopian cybernetic cityscape at night with intense pink and teal neon lighting, foggy atmosphere, and metallic reflections" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVZQ3AChQdt6AHsz3vSXrxxwj9WGNzZNSnKzEG5MqXUbWH8aR-I-uPK6Lp6cQ_suZvpiP1uU6tRvtP-ww81DXwv7XYdM5oYkcmIS5Eoqvcix7MvZSM7e6Tx-Ka-bTaUYszLrQaJJQW73BJ3EdBswUMLrlfZaarl8gTXu3FRHlypQ35sudhcAzLwr5YvER96q85Wk4U4KbnvSmjChRi_X-2YCtG4daVyM9cMUjx-UfdcozWjE-8QCjdHp42C_wOEaC4e32QXVvO1HSi" style="">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+<div class="absolute bottom-4 left-4">
+<p class="text-white font-bold text-sm" style="">Cyberpunk</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Custom Input Section -->
+<section class="space-y-6 pt-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: &quot;FILL&quot; 1;">auto_awesome</span>
+<h3 class="font-bold text-xl text-on-surface" style="">Custom Vision</h3>
+</div>
+<div class="bg-surface-container-lowest rounded-[10px] p-1 border border-outline-variant/15 focus-within:border-primary-container transition-colors shadow-sm">
+<textarea class="w-full min-h-[140px] p-4 bg-transparent border-none focus:ring-0 text-on-surface placeholder:text-on-surface-variant/50 font-light resize-none custom-scrollbar" placeholder="Describe your visual style... (e.g., '1970s disco aesthetics with holographic overlays')"></textarea>
+</div>
+<button class="w-full bg-primary-container text-white py-4 rounded-[10px] font-bold text-lg hover:bg-primary transition-all active:scale-[0.98] shadow-[0px_8px_24px_-8px_rgba(124,58,237,0.4)] flex items-center justify-center gap-2" style="">
+<span class="" style="">Generate Image</span>
+<span class="material-symbols-outlined text-xl" style="">bolt</span>
+</button>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-2 bg-white dark:bg-[#191C1E] z-50 rounded-t-[10px] shadow-[0px_-4px_20px_0px_rgba(25,28,30,0.04)]">
+<div class="flex flex-col items-center justify-center text-[#191C1E] opacity-50 hover:bg-[#F7F9FB] dark:hover:bg-slate-800 transition-opacity cursor-pointer px-6 py-2">
+<span class="material-symbols-outlined" data-icon="home" style="">home</span>
+<span class="font-['Manrope'] font-medium text-[10px] uppercase tracking-[0.05rem]" style="">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-[#EADDFF] text-[#5A00C6] rounded-[10px] px-6 py-2 scale-95 transition-transform duration-200 cursor-pointer">
+<span class="material-symbols-outlined" data-icon="palette" style="font-variation-settings: &quot;FILL&quot; 1;">palette</span>
+<span class="font-['Manrope'] font-medium text-[10px] uppercase tracking-[0.05rem]" style="">Styles</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#191C1E] opacity-50 hover:bg-[#F7F9FB] dark:hover:bg-slate-800 transition-opacity cursor-pointer px-6 py-2">
+<span class="material-symbols-outlined" data-icon="grid_view" style="">grid_view</span>
+<span class="font-['Manrope'] font-medium text-[10px] uppercase tracking-[0.05rem]" style="">Gallery</span>
+</div>
+</nav>
+</body></html>

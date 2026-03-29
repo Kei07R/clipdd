@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CLIPDD - Full View</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-fixed": "#eaddff",
+              "on-tertiary-container": "#ffe0cd",
+              "surface-container": "#eceef0",
+              "primary-container": "#7c3aed",
+              "outline": "#7b7487",
+              "surface-container-lowest": "#ffffff",
+              "primary-fixed-dim": "#d2bbff",
+              "tertiary-container": "#a15100",
+              "tertiary": "#7d3d00",
+              "tertiary-fixed": "#ffdcc6",
+              "background": "#f7f9fb",
+              "secondary-container": "#c4a7ff",
+              "inverse-primary": "#d2bbff",
+              "secondary-fixed": "#eaddff",
+              "on-primary-fixed-variant": "#5a00c6",
+              "surface-tint": "#732ee4",
+              "on-secondary-fixed": "#25005a",
+              "secondary": "#6a4fa0",
+              "on-secondary": "#ffffff",
+              "on-primary-container": "#ede0ff",
+              "outline-variant": "#ccc3d8",
+              "surface-container-high": "#e6e8ea",
+              "secondary-fixed-dim": "#d2bbff",
+              "surface-dim": "#d8dadc",
+              "surface-container-highest": "#e0e3e5",
+              "error-container": "#ffdad6",
+              "on-tertiary-fixed": "#301400",
+              "error": "#ba1a1a",
+              "primary": "#630ed4",
+              "surface": "#f7f9fb",
+              "on-surface": "#191c1e",
+              "on-primary-fixed": "#25005a",
+              "on-tertiary-fixed-variant": "#713700",
+              "inverse-surface": "#2d3133",
+              "on-background": "#191c1e",
+              "surface-variant": "#e0e3e5",
+              "on-surface-variant": "#4a4455",
+              "on-secondary-fixed-variant": "#523787",
+              "on-tertiary": "#ffffff",
+              "surface-container-low": "#f2f4f6",
+              "on-secondary-container": "#523787",
+              "on-error-container": "#93000a",
+              "on-error": "#ffffff",
+              "tertiary-fixed-dim": "#ffb784",
+              "on-primary": "#ffffff",
+              "inverse-on-surface": "#eff1f3",
+              "surface-bright": "#f7f9fb"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.625rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      body {
+        font-family: 'Manrope', sans-serif;
+        background-color: #F7F9FB;
+        color: #191C1E;
+        margin: 0;
+        padding: 0;
+      }
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-[#F7F9FB] dark:bg-[#191C1E] flex justify-between items-center w-full h-16 px-4 sticky top-0 z-50">
+<div class="flex items-center">
+<button class="hover:opacity-80 transition-opacity p-2">
+<span class="material-symbols-outlined text-primary">arrow_back</span>
+</button>
+</div>
+<div class="flex flex-col items-center flex-1">
+<h1 class="text-[#7C3AED] font-['Manrope'] font-extrabold uppercase tracking-widest text-lg leading-tight">CLIPDD</h1>
+<span class="text-[10px] font-label font-medium uppercase tracking-[0.05rem] text-on-surface-variant">Ghibli Style</span>
+</div>
+<div class="flex items-center">
+<button class="hover:opacity-80 transition-opacity p-2">
+<span class="material-symbols-outlined text-primary">more_vert</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col px-6 py-4 max-w-4xl mx-auto w-full mb-24">
+<!-- Large Image Display -->
+<div class="w-full bg-surface-container-lowest rounded-DEFAULT p-2 shadow-sm mb-8">
+<img alt="Ghibli style illustration" class="w-full aspect-square object-cover rounded-DEFAULT" data-alt="Dreamy Ghibli-style illustration of a lush meadow under a bright blue sky with towering white cumulus clouds and soft sunlight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbJNbUfYCMAfPluf82-JiZBm_RMmr4E5sw_9mw39WXx0XUfOfS21qqsPoSxiY367cfpfV-GBsedhBgqq7EBXaTnCCtqybb_JWyPoeYgmB6PU6TJUj4yM4l18odGaDsVfgEUtXdT8UTQas5lAc_se8Fj2ReXGA11QwODwfVSuUyT9k62A5cAyF9VvupB_pDwUeE5kRC_AKVTzvwaqPURopXPZlDhvjTyl50Iw_AzSFKvDvdj0GGcr1h8l7Mz9FVdCMePR9_3ETg5HU5"/>
+</div>
+<!-- Metadata & Description Section -->
+<div class="space-y-6">
+<!-- Metadata Chips -->
+<div class="flex flex-wrap gap-3">
+<div class="bg-primary-fixed text-on-primary-fixed-variant px-4 py-1.5 rounded-full font-label text-[10px] font-medium uppercase tracking-[0.05rem]">
+                    2048x2048 PX
+                </div>
+<div class="bg-primary-fixed text-on-primary-fixed-variant px-4 py-1.5 rounded-full font-label text-[10px] font-medium uppercase tracking-[0.05rem]">
+                    PNG FORMAT
+                </div>
+<div class="bg-primary-fixed text-on-primary-fixed-variant px-4 py-1.5 rounded-full font-label text-[10px] font-medium uppercase tracking-[0.05rem]">
+                    RENDER: v2.4
+                </div>
+</div>
+<!-- Aesthetic Description -->
+<div class="bg-surface-container-low p-6 rounded-DEFAULT">
+<h2 class="font-headline font-bold text-on-surface mb-2 tracking-tight">The Aesthetic</h2>
+<p class="font-body font-light text-on-surface-variant leading-relaxed text-sm">
+                    Characterized by soft, painterly textures and vibrant natural palettes. This Ghibli-inspired render emphasizes nostalgic warmth, featuring expressive light play and meticulously detailed environmental storytelling. Perfect for serene digital wallpapers and editorial creative projects.
+                </p>
+</div>
+</div>
+</main>
+<!-- Bottom Action Bar (Contextual Action instead of Nav) -->
+<div class="fixed bottom-0 left-0 w-full bg-white/80 backdrop-blur-md px-6 pb-8 pt-4 flex gap-4 items-center justify-between border-t border-outline-variant/15 z-50">
+<button class="bg-primary-container text-on-primary hover:bg-primary transition-all duration-200 h-14 flex-1 rounded-DEFAULT font-headline font-bold flex items-center justify-center gap-2 active:scale-95">
+<span class="material-symbols-outlined">download</span>
+            DOWNLOAD
+        </button>
+<button class="bg-surface-container-highest text-on-surface hover:opacity-80 transition-all duration-200 h-14 w-14 rounded-DEFAULT flex items-center justify-center active:scale-95">
+<span class="material-symbols-outlined">share</span>
+</button>
+</div>
+</body></html>
