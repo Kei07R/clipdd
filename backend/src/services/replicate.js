@@ -60,15 +60,15 @@ async function generateStyle(styleKey, imageDataUrl) {
 }
 
 /**
- * Fire all 5 styles in parallel.
+ * Generate only the requested styles, one at a time (rate-limit safe).
  * Always resolves — individual failures are captured per-style.
  */
-async function generateAllStyles(imageDataUrl) {
-  const styleKeys = Object.keys(STYLES);
-  const results = await Promise.all(
-    styleKeys.map((key) => generateStyle(key, imageDataUrl)),
-  );
+async function generateSelectedStyles(imageDataUrl, styleKeys) {
+  const results = [];
+  for (const key of styleKeys) {
+    results.push(await generateStyle(key, imageDataUrl));
+  }
   return results;
 }
 
-module.exports = { generateAllStyles, STYLES };
+module.exports = { generateSelectedStyles, STYLES };

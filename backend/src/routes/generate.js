@@ -1,6 +1,6 @@
 const express = require("express");
 const multer = require("multer");
-const { generateAllStyles } = require("../services/replicate");
+const { generateSelectedStyles, STYLES } = require("../services/replicate");
 
 const router = express.Router();
 
@@ -18,8 +18,9 @@ const upload = multer({
 
 /**
  * POST /api/generate
- * Accepts multipart/form-data with an `image` field.
- * Returns an array of generation results, one per style.
+ * Accepts multipart/form-data with an `image` field and a `styles` field
+ * (comma-separated list of style keys, e.g. "anime,comic").
+ * Generates styles sequentially to stay within rate limits.
  */
 router.post("/", upload.single("image"), async (req, res) => {
   if (!req.file) {
@@ -32,9 +33,18 @@ router.post("/", upload.single("image"), async (req, res) => {
       .json({ error: "Server misconfiguration: missing API token" });
   }
 
+  const validKeys = Object.keys(STYLES);
+  const requested = req.body.styles
+    ? req.body.styles.split(",").map((s) => s.trim()).filter((s) => validKeys.includes(s))
+    : validKeys;
+
+  if (requested.length === 0) {
+    return res.status(400).json({ error: `No valid styles requested. Valid options: ${validKeys.join(", ")}` });
+  }
+
   const imageDataUrl = `data:${req.file.mimetype};base64,${req.file.buffer.toString("base64")}`;
 
-  const results = await generateAllStyles(imageDataUrl);
+  const results = await generateSelectedStyles(imageDataUrl, requested);
   const hasAnySuccess = results.some((r) => !r.error);
 
   if (!hasAnySuccess) {
