@@ -4,7 +4,9 @@ import { useState } from 'react';
 import { generateStyles } from '../services/api';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
+  ActivityIndicator,
   ImageBackground,
+  Modal,
   ScrollView,
   StyleSheet,
   Text,
@@ -53,12 +55,12 @@ export default function StylesScreen({ navigation, route }: Props) {
     if (isCustomActive) styleKeys.push('custom');
 
     try {
-      await generateStyles(
+      const results = await generateStyles(
         imageUri,
         styleKeys,
         isCustomActive ? customPrompt.trim() : undefined
       );
-      // TODO: navigate to results screen
+      navigation.navigate('Results', { imageUri, results });
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -134,6 +136,19 @@ export default function StylesScreen({ navigation, route }: Props) {
 
         <View style={styles.bottomSpacer} />
       </ScrollView>
+
+      {/* Loading modal */}
+      <Modal visible={loading} transparent animationType="fade">
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalBox}>
+            <ActivityIndicator size="large" color="#6c63ff" />
+            <Text style={styles.modalTitle}>Generating your images…</Text>
+            <Text style={styles.modalSubtitle}>
+              Please be patient, this usually takes a minute or two.
+            </Text>
+          </View>
+        </View>
+      </Modal>
 
       {/* Generate button */}
       <View style={[styles.footer, { paddingBottom: insets.bottom + 16 }]}>
@@ -318,5 +333,32 @@ const styles = StyleSheet.create({
     fontSize: 13,
     textAlign: 'center',
     marginBottom: 10,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.55)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  modalBox: {
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    padding: 32,
+    alignItems: 'center',
+    marginHorizontal: 40,
+    gap: 16,
+  },
+  modalTitle: {
+    fontFamily: 'Poppins_700Bold',
+    fontSize: 17,
+    color: '#111',
+    textAlign: 'center',
+  },
+  modalSubtitle: {
+    fontFamily: 'Poppins_400Regular',
+    fontSize: 14,
+    color: '#888',
+    textAlign: 'center',
+    lineHeight: 22,
   },
 });
