@@ -3,6 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import * as ImagePicker from 'expo-image-picker';
 import {
+  Alert,
   Image,
   ScrollView,
   StyleSheet,
@@ -23,14 +24,20 @@ export default function UploadScreen() {
 
   async function openCamera() {
     const { status } = await ImagePicker.requestCameraPermissionsAsync();
-    if (status !== 'granted') return;
+    if (status !== 'granted') {
+      Alert.alert('Camera Access Needed', 'Please allow camera access in Settings to take a photo.');
+      return;
+    }
     const result = await ImagePicker.launchCameraAsync({ quality: 1 });
     if (!result.canceled) setImageUri(result.assets[0].uri);
   }
 
   async function openGallery() {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== 'granted') return;
+    if (status !== 'granted') {
+      Alert.alert('Photo Access Needed', 'Please allow photo library access in Settings to choose an image.');
+      return;
+    }
     const result = await ImagePicker.launchImageLibraryAsync({ quality: 1 });
     if (!result.canceled) setImageUri(result.assets[0].uri);
   }

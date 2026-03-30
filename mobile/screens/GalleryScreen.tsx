@@ -28,8 +28,8 @@ export default function GalleryScreen() {
     try {
       await MediaLibrary.createAssetAsync(item.localUri);
       Alert.alert('Saved!', 'Image saved to your gallery.');
-    } catch (e: any) {
-      Alert.alert('Error', e?.message ?? 'Failed to save image.');
+    } catch {
+      Alert.alert('Download Failed', 'Could not save this image. Please try again.');
     }
   }
 
@@ -85,7 +85,6 @@ export default function GalleryScreen() {
           columnWrapperStyle={styles.row}
           contentContainerStyle={styles.grid}
           showsVerticalScrollIndicator={false}
-          onLongPress={() => {}}
         />
       )}
     </View>

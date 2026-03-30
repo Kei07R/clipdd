@@ -31,6 +31,20 @@ const PRESETS = [
 
 const ALL_PRESET_KEYS = PRESETS.map((p) => p.key);
 
+function friendlyError(err: any): string {
+  const msg: string = err?.message ?? '';
+  if (msg.includes('Network') || msg.includes('fetch') || msg.includes('Failed to fetch')) {
+    return 'Connection failed. Check your internet and try again.';
+  }
+  if (msg.includes('timeout') || msg.includes('Timeout')) {
+    return 'This is taking too long. Please try again.';
+  }
+  if (msg.includes('429') || msg.toLowerCase().includes('rate limit')) {
+    return 'Too many requests. Wait a moment and try again.';
+  }
+  return 'Something went wrong. Please try again.';
+}
+
 export default function StylesScreen() {
   const navigation = useNavigation<NavProp>();
   const { imageUri, setResults } = useImage();
@@ -79,7 +93,7 @@ export default function StylesScreen() {
       setResults(results);
       navigation.navigate('Results');
     } catch (err: any) {
-      setError(err.message);
+      setError(friendlyError(err));
     } finally {
       setLoading(false);
     }

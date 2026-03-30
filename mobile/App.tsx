@@ -27,7 +27,7 @@ export default function App() {
     <SafeAreaProvider>
       <ImageProvider>
         <NavigationContainer>
-          <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Navigator screenOptions={{ headerShown: false, animation: 'fade' }}>
             <Stack.Screen name="Welcome" component={WelcomeScreen} />
             <Stack.Screen name="MainApp" component={BottomTabs} />
           </Stack.Navigator>

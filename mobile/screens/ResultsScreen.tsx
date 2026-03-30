@@ -41,8 +41,8 @@ export default function ResultsScreen() {
       const fileUri = dir + filename;
       await FileSystem.downloadAsync(imageUrl, fileUri);
       await Sharing.shareAsync(fileUri, { mimeType: 'image/jpeg' });
-    } catch (e: any) {
-      Alert.alert('Error', e?.message ?? 'Failed to share image.');
+    } catch {
+      Alert.alert('Share Failed', 'Could not share this image. Please try again.');
     }
   }
 
@@ -55,8 +55,8 @@ export default function ResultsScreen() {
       await FileSystem.downloadAsync(imageUrl, fileUri);
       await MediaLibrary.createAssetAsync(fileUri);
       Alert.alert('Saved!', 'Image saved to your gallery.');
-    } catch (e: any) {
-      Alert.alert('Error', e?.message ?? 'Failed to save image.');
+    } catch {
+      Alert.alert('Download Failed', 'Could not save this image. Please try again.');
     }
   }
 
@@ -84,6 +84,17 @@ export default function ResultsScreen() {
         <View style={styles.sectionRow}>
           <Text style={styles.sectionTitle}>AI Style Iterations</Text>
         </View>
+
+        {/* Empty state */}
+        {results.length === 0 && (
+          <View style={styles.emptyState}>
+            <Ionicons name="sparkles-outline" size={52} color="#ccc" />
+            <Text style={styles.emptyTitle}>No results yet</Text>
+            <Text style={styles.emptySubtext}>
+              Head to Styles, pick your aesthetics, and hit Generate.
+            </Text>
+          </View>
+        )}
 
         {/* Results grid */}
         <View style={styles.grid}>
@@ -319,5 +330,24 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#ccc',
     letterSpacing: 1,
+  },
+  emptyState: {
+    alignItems: 'center',
+    paddingTop: 40,
+    paddingBottom: 24,
+    gap: 12,
+  },
+  emptyTitle: {
+    fontFamily: 'Poppins_600SemiBold',
+    fontSize: 16,
+    color: '#aaa',
+  },
+  emptySubtext: {
+    fontFamily: 'Poppins_400Regular',
+    fontSize: 13,
+    color: '#ccc',
+    textAlign: 'center',
+    lineHeight: 20,
+    paddingHorizontal: 20,
   },
 });
