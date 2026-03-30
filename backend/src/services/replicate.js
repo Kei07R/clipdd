@@ -73,7 +73,7 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 async function generateSelectedStyles(imageDataUrl, styleKeys, customPrompt) {
   const results = [];
   for (let i = 0; i < styleKeys.length; i++) {
-    if (i > 0) await delay(5000);
+    if (i > 0) await delay(3000);
     results.push(await generateStyle(styleKeys[i], imageDataUrl, customPrompt));
   }
   return results;
