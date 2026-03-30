@@ -68,10 +68,13 @@ async function generateStyle(styleKey, imageDataUrl, customPrompt) {
  * Generate only the requested styles, one at a time (rate-limit safe).
  * Always resolves — individual failures are captured per-style.
  */
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 async function generateSelectedStyles(imageDataUrl, styleKeys, customPrompt) {
   const results = [];
-  for (const key of styleKeys) {
-    results.push(await generateStyle(key, imageDataUrl, customPrompt));
+  for (let i = 0; i < styleKeys.length; i++) {
+    if (i > 0) await delay(5000);
+    results.push(await generateStyle(styleKeys[i], imageDataUrl, customPrompt));
   }
   return results;
 }
