@@ -3,6 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import * as FileSystem from 'expo-file-system/legacy';
 import * as MediaLibrary from 'expo-media-library';
+import * as Sharing from 'expo-sharing';
 import {
   Alert,
   Image,
@@ -31,6 +32,19 @@ export default function ResultsScreen() {
   const navigation = useNavigation<NavProp>();
   const { imageUri, results } = useImage();
   const insets = useSafeAreaInsets();
+
+  async function handleShare(imageUrl: string) {
+    try {
+      const filename = `clipdd_share_${Date.now()}.jpg`;
+      const dir = FileSystem.cacheDirectory;
+      if (!dir) throw new Error('Storage unavailable');
+      const fileUri = dir + filename;
+      await FileSystem.downloadAsync(imageUrl, fileUri);
+      await Sharing.shareAsync(fileUri, { mimeType: 'image/jpeg' });
+    } catch (e: any) {
+      Alert.alert('Error', e?.message ?? 'Failed to share image.');
+    }
+  }
 
   async function handleDownload(imageUrl: string) {
     try {
@@ -78,6 +92,12 @@ export default function ResultsScreen() {
               {result.imageUrl ? (
                 <>
                   <Image source={{ uri: result.imageUrl }} style={styles.cardImage} />
+                  <TouchableOpacity
+                    style={styles.shareBtn}
+                    onPress={() => handleShare(result.imageUrl!)}
+                  >
+                    <Ionicons name="share-social-outline" size={20} color="#6c63ff" />
+                  </TouchableOpacity>
                   <TouchableOpacity
                     style={styles.downloadBtn}
                     onPress={() => handleDownload(result.imageUrl!)}
@@ -211,6 +231,22 @@ const styles = StyleSheet.create({
   cardImage: {
     width: '100%',
     aspectRatio: 1,
+  },
+  shareBtn: {
+    position: 'absolute',
+    bottom: 48,
+    right: 54,
+    width: 36,
+    height: 36,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    shadowOffset: { width: 0, height: 2 },
   },
   downloadBtn: {
     position: 'absolute',

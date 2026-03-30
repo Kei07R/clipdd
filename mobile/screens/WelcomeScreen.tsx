@@ -53,8 +53,8 @@ const styles = StyleSheet.create({
     height: 110,
     borderRadius: 24,
     marginBottom: 8,
-    borderWidth: 3,
-    borderColor: '#6c63ff',
+    borderWidth: 1,
+    borderColor: '#9c98e9',
   },
   quote: {
     fontFamily: 'Poppins_400Regular',
