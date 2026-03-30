@@ -34,6 +34,7 @@ router.post("/", upload.single("image"), async (req, res) => {
   }
 
   const validKeys = Object.keys(STYLES);
+  // Unknown keys are silently dropped rather than rejected — allows partial valid requests through
   const requested = req.body.styles
     ? req.body.styles.split(",").map((s) => s.trim()).filter((s) => validKeys.includes(s))
     : validKeys.filter((k) => k !== "custom");

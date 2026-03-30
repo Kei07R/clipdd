@@ -73,6 +73,7 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 async function generateSelectedStyles(imageDataUrl, styleKeys, customPrompt) {
   const results = [];
   for (let i = 0; i < styleKeys.length; i++) {
+    // 3-second pause between calls — Replicate enforces a per-minute rate limit on this model
     if (i > 0) await delay(3000);
     results.push(await generateStyle(styleKeys[i], imageDataUrl, customPrompt));
   }
