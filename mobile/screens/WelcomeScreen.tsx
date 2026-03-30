@@ -8,7 +8,7 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Welcome'>;
 export default function WelcomeScreen({ navigation }: Props) {
   return (
     <View style={styles.container}>
-      <StatusBar style="light" />
+      <StatusBar style="dark" />
 
       <View style={styles.content}>
         <Image
@@ -25,7 +25,7 @@ export default function WelcomeScreen({ navigation }: Props) {
       <TouchableOpacity
         style={styles.button}
         activeOpacity={0.85}
-        onPress={() => navigation.navigate('Upload')}
+        onPress={() => navigation.navigate('MainApp')}
       >
         <Text style={styles.buttonText}>Get Started</Text>
       </TouchableOpacity>
@@ -36,7 +36,7 @@ export default function WelcomeScreen({ navigation }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0f0f0f',
+    backgroundColor: '#f0f0f8',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingVertical: 80,
@@ -53,11 +53,13 @@ const styles = StyleSheet.create({
     height: 110,
     borderRadius: 24,
     marginBottom: 8,
+    borderWidth: 3,
+    borderColor: '#6c63ff',
   },
   quote: {
     fontFamily: 'Poppins_400Regular',
     fontSize: 16,
-    color: '#ffffff',
+    color: '#888',
     textAlign: 'center',
     lineHeight: 26,
     marginTop: 4,

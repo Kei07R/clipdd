@@ -7,9 +7,8 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import ResultsScreen from './screens/ResultsScreen';
-import StylesScreen from './screens/StylesScreen';
-import UploadScreen from './screens/UploadScreen';
+import { ImageProvider } from './context/ImageContext';
+import BottomTabs from './navigation/BottomTabs';
 import WelcomeScreen from './screens/WelcomeScreen';
 import { RootStackParamList } from './screens/types';
 
@@ -26,14 +25,14 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Welcome" component={WelcomeScreen} />
-          <Stack.Screen name="Upload" component={UploadScreen} />
-          <Stack.Screen name="Styles" component={StylesScreen} />
-        <Stack.Screen name="Results" component={ResultsScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <ImageProvider>
+        <NavigationContainer>
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Welcome" component={WelcomeScreen} />
+            <Stack.Screen name="MainApp" component={BottomTabs} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </ImageProvider>
     </SafeAreaProvider>
   );
 }

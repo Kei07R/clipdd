@@ -1,8 +1,10 @@
 import { Ionicons } from '@expo/vector-icons';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useNavigation } from '@react-navigation/native';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { useState } from 'react';
 import { generateStyles } from '../services/api';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { saveToGallery } from '../services/storage';
+
 import {
   ActivityIndicator,
   ImageBackground,
@@ -14,9 +16,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { RootStackParamList } from './types';
+import { useImage } from '../context/ImageContext';
+import { BottomTabParamList } from './types';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Styles'>;
+type NavProp = BottomTabNavigationProp<BottomTabParamList, 'Styles'>;
 
 const PRESETS = [
   { key: 'anime',    label: 'Anime',     image: require('../assets/anime-style.jpg') },
@@ -28,16 +31,17 @@ const PRESETS = [
 
 const ALL_PRESET_KEYS = PRESETS.map((p) => p.key);
 
-export default function StylesScreen({ navigation, route }: Props) {
-  const { imageUri } = route.params;
-  const insets = useSafeAreaInsets();
+export default function StylesScreen() {
+  const navigation = useNavigation<NavProp>();
+  const { imageUri, setResults } = useImage();
+
   const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set(ALL_PRESET_KEYS));
   const [customPrompt, setCustomPrompt] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const isCustomActive = customPrompt.trim().length > 0;
-  const canGenerate = (selectedKeys.size > 0 || isCustomActive) && !loading;
+  const canGenerate = !!imageUri && (selectedKeys.size > 0 || isCustomActive) && !loading;
 
   function togglePreset(key: string) {
     setSelectedKeys((prev) => {
@@ -48,6 +52,7 @@ export default function StylesScreen({ navigation, route }: Props) {
   }
 
   async function handleGenerate() {
+    if (!imageUri) return;
     setError(null);
     setLoading(true);
 
@@ -60,7 +65,19 @@ export default function StylesScreen({ navigation, route }: Props) {
         styleKeys,
         isCustomActive ? customPrompt.trim() : undefined
       );
-      navigation.navigate('Results', { imageUri, results });
+
+      // Save successful results to gallery
+      const toSave = results
+        .filter((r) => r.imageUrl)
+        .map((r) => ({
+          remoteUrl: r.imageUrl!,
+          style: r.style,
+          label: r.label,
+          originalImageUri: imageUri,
+        }));
+      await saveToGallery(toSave as any);
+      setResults(results);
+      navigation.navigate('Results');
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -73,21 +90,23 @@ export default function StylesScreen({ navigation, route }: Props) {
 
       {/* Top bar */}
       <View style={styles.topBar}>
-        <TouchableOpacity onPress={() => navigation.goBack()} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
-          <Ionicons name="arrow-back" size={22} color="#6c63ff" />
-        </TouchableOpacity>
         <Text style={styles.appName}>CLIPDD</Text>
-        <Ionicons name="ellipsis-vertical" size={20} color="#6c63ff" />
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scroll}>
 
         {/* Header */}
-        <Text style={styles.eyebrow}>STYLE LAB</Text>
+        {/* <Text style={styles.eyebrow}>STYLE LAB</Text> */}
         <Text style={styles.heading}>Craft Your Style</Text>
-        <Text style={styles.subheading}>
-          Select a preset aesthetic or define your unique visual signature.
-        </Text>
+        {!imageUri ? (
+          <Text style={[styles.subheading, { color: '#e94560' }]}>
+            Please select an image first from the Home tab.
+          </Text>
+        ) : (
+          <Text style={styles.subheading}>
+            Select a preset aesthetic or define your unique visual signature.
+          </Text>
+        )}
 
         {/* Presets */}
         <View style={styles.sectionHeader}>
@@ -151,7 +170,7 @@ export default function StylesScreen({ navigation, route }: Props) {
       </Modal>
 
       {/* Generate button */}
-      <View style={[styles.footer, { paddingBottom: insets.bottom + 16 }]}>
+      <View style={styles.footer}>
         {error && <Text style={styles.errorText}>{error}</Text>}
         <TouchableOpacity
           style={[styles.generateBtn, !canGenerate && styles.generateBtnDisabled]}
@@ -176,9 +195,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f0f0f8',
   },
   topBar: {
-    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
     paddingTop: 52,
     paddingBottom: 12,
     paddingHorizontal: 20,
@@ -302,11 +319,12 @@ const styles = StyleSheet.create({
     borderColor: '#6c63ff',
   },
   bottomSpacer: {
-    height: 24,
+    height: 8,
   },
   footer: {
     paddingHorizontal: 20,
-    paddingTop: 16,
+    paddingTop: 18,
+    paddingBottom: 16,
     backgroundColor: '#f0f0f8',
   },
   generateBtn: {

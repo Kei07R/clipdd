@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import * as FileSystem from 'expo-file-system';
+import { useNavigation } from '@react-navigation/native';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import * as FileSystem from 'expo-file-system/legacy';
 import * as MediaLibrary from 'expo-media-library';
 import {
   Alert,
@@ -12,9 +13,10 @@ import {
   View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { RootStackParamList } from './types';
+import { useImage } from '../context/ImageContext';
+import { BottomTabParamList } from './types';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Results'>;
+type NavProp = BottomTabNavigationProp<BottomTabParamList, 'Results'>;
 
 const STYLE_LABELS: Record<string, string> = {
   anime: 'ANIME',
@@ -25,25 +27,22 @@ const STYLE_LABELS: Record<string, string> = {
   custom: 'CUSTOM',
 };
 
-export default function ResultsScreen({ navigation, route }: Props) {
-  const { imageUri, results } = route.params;
+export default function ResultsScreen() {
+  const navigation = useNavigation<NavProp>();
+  const { imageUri, results } = useImage();
   const insets = useSafeAreaInsets();
 
   async function handleDownload(imageUrl: string) {
-    const { status } = await MediaLibrary.requestPermissionsAsync();
-    if (status !== 'granted') {
-      Alert.alert('Permission required', 'Allow access to your gallery to save images.');
-      return;
-    }
-
     try {
       const filename = `clipdd_${Date.now()}.jpg`;
-      const fileUri = FileSystem.documentDirectory + filename;
+      const dir = FileSystem.documentDirectory;
+      if (!dir) throw new Error('Storage unavailable');
+      const fileUri = dir + filename;
       await FileSystem.downloadAsync(imageUrl, fileUri);
-      await MediaLibrary.saveToLibraryAsync(fileUri);
+      await MediaLibrary.createAssetAsync(fileUri);
       Alert.alert('Saved!', 'Image saved to your gallery.');
-    } catch {
-      Alert.alert('Error', 'Failed to save image. Please try again.');
+    } catch (e: any) {
+      Alert.alert('Error', e?.message ?? 'Failed to save image.');
     }
   }
 
@@ -52,18 +51,14 @@ export default function ResultsScreen({ navigation, route }: Props) {
 
       {/* Top bar */}
       <View style={[styles.topBar, { paddingTop: insets.top + 8 }]}>
-        <TouchableOpacity onPress={() => navigation.goBack()} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
-          <Ionicons name="arrow-back" size={22} color="#6c63ff" />
-        </TouchableOpacity>
         <Text style={styles.appName}>CLIPDD</Text>
-        <Ionicons name="ellipsis-vertical" size={20} color="#6c63ff" />
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scroll}>
 
         {/* Original image */}
         <View style={styles.originalCard}>
-          <Image source={{ uri: imageUri }} style={styles.originalThumb} />
+          {imageUri ? <Image source={{ uri: imageUri }} style={styles.originalThumb} /> : <View style={styles.originalThumb} />}
           <View>
             <Text style={styles.originalTitle}>ORIGINAL CAPTURE</Text>
             <Text style={styles.originalSub}>Your uploaded photo</Text>
@@ -71,13 +66,9 @@ export default function ResultsScreen({ navigation, route }: Props) {
         </View>
 
         {/* Section header */}
-        <Text style={styles.eyebrow}>GENERATION QUEUE</Text>
+        <Text style={styles.eyebrow}>GENERATIONS</Text>
         <View style={styles.sectionRow}>
           <Text style={styles.sectionTitle}>AI Style Iterations</Text>
-          <TouchableOpacity style={styles.refineBtn} onPress={() => navigation.goBack()}>
-            <Ionicons name="options-outline" size={15} color="#333" />
-            <Text style={styles.refineBtnText}>Refine</Text>
-          </TouchableOpacity>
         </View>
 
         {/* Results grid */}
@@ -117,7 +108,7 @@ export default function ResultsScreen({ navigation, route }: Props) {
           ))}
 
           {/* Add style card */}
-          <TouchableOpacity style={[styles.card, styles.addStyleCard]} onPress={() => navigation.goBack()}>
+          <TouchableOpacity style={[styles.card, styles.addStyleCard]} onPress={() => navigation.navigate('Styles')}>
             <Ionicons name="add-circle-outline" size={32} color="#ccc" />
             <Text style={styles.addStyleText}>ADD STYLE</Text>
           </TouchableOpacity>
@@ -134,9 +125,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f0f0f8',
   },
   topBar: {
-    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
     paddingBottom: 12,
     paddingHorizontal: 20,
   },

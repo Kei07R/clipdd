@@ -1,8 +1,17 @@
-import { StyleResult } from '../services/api';
+import { NavigatorScreenParams } from '@react-navigation/native';
+
+export type GalleryStackParamList = {
+  GalleryHome: undefined;
+};
+
+export type BottomTabParamList = {
+  Home: undefined;
+  Styles: undefined;
+  Results: undefined;
+  Gallery: NavigatorScreenParams<GalleryStackParamList>;
+};
 
 export type RootStackParamList = {
   Welcome: undefined;
-  Upload: undefined;
-  Styles: { imageUri: string };
-  Results: { imageUri: string; results: StyleResult[] };
+  MainApp: undefined;
 };
