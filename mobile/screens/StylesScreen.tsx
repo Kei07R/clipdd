@@ -1,0 +1,322 @@
+import { Ionicons } from '@expo/vector-icons';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useState } from 'react';
+import { generateStyles } from '../services/api';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import {
+  ImageBackground,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import { RootStackParamList } from './types';
+
+type Props = NativeStackScreenProps<RootStackParamList, 'Styles'>;
+
+const PRESETS = [
+  { key: 'anime',    label: 'Anime',     image: require('../assets/anime-style.jpg') },
+  { key: 'ghibli',   label: 'Ghibli',    image: require('../assets/ghibli-style.jpg') },
+  { key: 'pixelart', label: 'Pixel Art', image: require('../assets/pixel-style.jpg') },
+  { key: 'comic',    label: 'Comic',     image: require('../assets/comic-style.jpg') },
+  { key: 'cartoon',  label: 'Cartoon',   image: require('../assets/cartoon-style.jpg') },
+];
+
+const ALL_PRESET_KEYS = PRESETS.map((p) => p.key);
+
+export default function StylesScreen({ navigation, route }: Props) {
+  const { imageUri } = route.params;
+  const insets = useSafeAreaInsets();
+  const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set(ALL_PRESET_KEYS));
+  const [customPrompt, setCustomPrompt] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const isCustomActive = customPrompt.trim().length > 0;
+  const canGenerate = (selectedKeys.size > 0 || isCustomActive) && !loading;
+
+  function togglePreset(key: string) {
+    setSelectedKeys((prev) => {
+      const next = new Set(prev);
+      next.has(key) ? next.delete(key) : next.add(key);
+      return next;
+    });
+  }
+
+  async function handleGenerate() {
+    setError(null);
+    setLoading(true);
+
+    const styleKeys = [...selectedKeys];
+    if (isCustomActive) styleKeys.push('custom');
+
+    try {
+      await generateStyles(
+        imageUri,
+        styleKeys,
+        isCustomActive ? customPrompt.trim() : undefined
+      );
+      // TODO: navigate to results screen
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <View style={styles.container}>
+
+      {/* Top bar */}
+      <View style={styles.topBar}>
+        <TouchableOpacity onPress={() => navigation.goBack()} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
+          <Ionicons name="arrow-back" size={22} color="#6c63ff" />
+        </TouchableOpacity>
+        <Text style={styles.appName}>CLIPDD</Text>
+        <Ionicons name="ellipsis-vertical" size={20} color="#6c63ff" />
+      </View>
+
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scroll}>
+
+        {/* Header */}
+        <Text style={styles.eyebrow}>STYLE LAB</Text>
+        <Text style={styles.heading}>Craft Your Style</Text>
+        <Text style={styles.subheading}>
+          Select a preset aesthetic or define your unique visual signature.
+        </Text>
+
+        {/* Presets */}
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionTitle}>Presets</Text>
+        </View>
+
+        <View style={styles.grid}>
+          {PRESETS.map((preset) => {
+            const selected = selectedKeys.has(preset.key);
+            return (
+              <TouchableOpacity
+                key={preset.key}
+                style={[styles.card, selected && styles.cardSelected]}
+                activeOpacity={0.85}
+                onPress={() => togglePreset(preset.key)}
+              >
+                <ImageBackground source={preset.image} style={styles.cardBg} resizeMode="cover">
+                  {selected && (
+                    <View style={styles.checkmark}>
+                      <Ionicons name="checkmark" size={14} color="#fff" />
+                    </View>
+                  )}
+                  <Text style={styles.cardLabel}>{preset.label}</Text>
+                </ImageBackground>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+
+        {/* Custom Vision */}
+        <View style={styles.customHeader}>
+          <Ionicons name="sparkles" size={20} color={isCustomActive ? '#6c63ff' : '#333'} />
+          <Text style={[styles.customTitle, isCustomActive && styles.customTitleActive]}>
+            Custom Vision
+          </Text>
+        </View>
+
+        <TextInput
+          style={[styles.customInput, isCustomActive && styles.customInputActive]}
+          placeholder="Describe your visual style... (e.g., '1970s disco aesthetics with holographic overlays')"
+          placeholderTextColor="#bbb"
+          multiline
+          value={customPrompt}
+          onChangeText={setCustomPrompt}
+        />
+
+        <View style={styles.bottomSpacer} />
+      </ScrollView>
+
+      {/* Generate button */}
+      <View style={[styles.footer, { paddingBottom: insets.bottom + 16 }]}>
+        {error && <Text style={styles.errorText}>{error}</Text>}
+        <TouchableOpacity
+          style={[styles.generateBtn, !canGenerate && styles.generateBtnDisabled]}
+          activeOpacity={0.85}
+          disabled={!canGenerate}
+          onPress={handleGenerate}
+        >
+          <Text style={styles.generateBtnText}>
+            {loading ? 'Generating…' : 'Generate Images'}
+          </Text>
+          <Ionicons name="flash" size={18} color="#fff" />
+        </TouchableOpacity>
+      </View>
+
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f0f0f8',
+  },
+  topBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingTop: 52,
+    paddingBottom: 12,
+    paddingHorizontal: 20,
+  },
+  appName: {
+    fontFamily: 'Poppins_700Bold',
+    fontSize: 18,
+    color: '#6c63ff',
+    letterSpacing: 2,
+  },
+  scroll: {
+    paddingHorizontal: 20,
+    paddingTop: 8,
+  },
+  eyebrow: {
+    fontFamily: 'Poppins_600SemiBold',
+    fontSize: 11,
+    color: '#6c63ff',
+    letterSpacing: 2,
+    textAlign: 'center',
+    marginBottom: 6,
+  },
+  heading: {
+    fontFamily: 'Poppins_700Bold',
+    fontSize: 30,
+    color: '#111',
+    textAlign: 'center',
+    marginBottom: 8,
+  },
+  subheading: {
+    fontFamily: 'Poppins_400Regular',
+    fontSize: 14,
+    color: '#888',
+    textAlign: 'center',
+    lineHeight: 22,
+    marginBottom: 28,
+  },
+  sectionHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 14,
+  },
+  sectionTitle: {
+    fontFamily: 'Poppins_700Bold',
+    fontSize: 18,
+    color: '#111',
+  },
+  grid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 12,
+    marginBottom: 32,
+  },
+  card: {
+    width: '47.5%',
+    height: 160,
+    borderRadius: 16,
+    overflow: 'hidden',
+    justifyContent: 'flex-end',
+    borderWidth: 2,
+    borderColor: 'transparent',
+  },
+  cardSelected: {
+    borderColor: '#6c63ff',
+  },
+  cardBg: {
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+  checkmark: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: '#6c63ff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  cardLabel: {
+    fontFamily: 'Poppins_600SemiBold',
+    fontSize: 14,
+    color: '#ffffff',
+    backgroundColor: '#6b63ff88',
+    paddingHorizontal: 10,
+    paddingVertical: 2,
+    margin: 10,
+    borderRadius: 6,
+    alignSelf: 'flex-start',
+  },
+  customHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 12,
+  },
+  customTitle: {
+    fontFamily: 'Poppins_700Bold',
+    fontSize: 18,
+    color: '#111',
+  },
+  customTitleActive: {
+    color: '#6c63ff',
+  },
+  customInput: {
+    backgroundColor: '#fff',
+    borderRadius: 14,
+    padding: 16,
+    fontFamily: 'Poppins_400Regular',
+    fontSize: 14,
+    color: '#333',
+    minHeight: 120,
+    textAlignVertical: 'top',
+    borderWidth: 1.5,
+    borderColor: 'transparent',
+    lineHeight: 22,
+  },
+  customInputActive: {
+    borderColor: '#6c63ff',
+  },
+  bottomSpacer: {
+    height: 24,
+  },
+  footer: {
+    paddingHorizontal: 20,
+    paddingTop: 16,
+    backgroundColor: '#f0f0f8',
+  },
+  generateBtn: {
+    backgroundColor: '#6c63ff',
+    paddingVertical: 16,
+    borderRadius: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+  },
+  generateBtnDisabled: {
+    opacity: 0.4,
+  },
+  generateBtnText: {
+    fontFamily: 'Poppins_600SemiBold',
+    color: '#fff',
+    fontSize: 17,
+    letterSpacing: 0.3,
+  },
+  errorText: {
+    fontFamily: 'Poppins_400Regular',
+    color: '#e94560',
+    fontSize: 13,
+    textAlign: 'center',
+    marginBottom: 10,
+  },
+});

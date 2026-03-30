@@ -1,4 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import * as ImagePicker from 'expo-image-picker';
 import { useState } from 'react';
 import {
@@ -8,8 +9,11 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { RootStackParamList } from './types';
 
-export default function UploadScreen() {
+type Props = NativeStackScreenProps<RootStackParamList, 'Upload'>;
+
+export default function UploadScreen({ navigation }: Props) {
   const [imageUri, setImageUri] = useState<string | null>(null);
 
   async function openCamera() {
@@ -86,6 +90,7 @@ export default function UploadScreen() {
       <TouchableOpacity
         style={[styles.selectionRow, imageUri ? styles.selectionRowActive : null]}
         activeOpacity={0.75}
+        onPress={() => imageUri && navigation.navigate('Styles', { imageUri })}
       >
         <View style={styles.selectionIconCircle}>
           <Ionicons name="color-palette" size={20} color="#6c63ff" />
