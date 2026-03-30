@@ -53,6 +53,9 @@ export default function GalleryScreen() {
       <TouchableOpacity style={styles.downloadBtn} onPress={() => handleDownload(item)}>
         <Ionicons name="download-outline" size={20} color="#6c63ff" />
       </TouchableOpacity>
+      <TouchableOpacity style={styles.deleteBtn} onPress={() => handleDelete(item.id)}>
+        <Ionicons name="trash-outline" size={20} color="#e94560" />
+      </TouchableOpacity>
     </View>
   );
 
@@ -142,6 +145,22 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   downloadBtn: {
+    position: 'absolute',
+    bottom: 10,
+    right: 54,
+    width: 36,
+    height: 36,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    shadowOffset: { width: 0, height: 2 },
+  },
+  deleteBtn: {
     position: 'absolute',
     bottom: 10,
     right: 10,
